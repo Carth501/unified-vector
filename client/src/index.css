@@ -4,9 +4,9 @@
   --muted: #8ea6c9;
   --bg: #07111f;
   --bg-deep: #030813;
-  --panel-bg: linear-gradient(180deg, rgba(17, 29, 52, 0.94), rgba(9, 17, 31, 0.96));
-  --panel-border: rgba(110, 160, 255, 0.2);
-  --border: rgba(110, 160, 255, 0.16);
+  --panel-bg: linear-gradient(180deg, rgba(17, 29, 52, 0.94), rgba(63, 107, 183, 0.26));
+  --panel-border: rgba(110, 160, 255, 0.9);
+  --border: rgba(110, 160, 255, 0.9);
   --accent: #52d7ff;
   --accent-rgb: 82, 215, 255;
   --accent-dark: #a4f1ff;

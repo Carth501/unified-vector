@@ -5,8 +5,8 @@
 .panel-card {
   border-radius: 28px;
   background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
   box-shadow: var(--shadow-soft);
+  background-clip: padding-box;
   overflow: hidden;
   position: relative;
 }

@@ -24,7 +24,7 @@ export function Panel({
 }: PanelProps) {
   return (
     <article className="dashboard-panel" aria-labelledby={headingId}>
-      <div className="card panel-card border-0 shadow-sm h-100">
+      <div className="card panel-card border-0 shadow h-100">
         <div className="card-body">
           <div className="panel-header">
             <div>
