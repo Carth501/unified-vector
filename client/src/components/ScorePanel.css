@@ -1,6 +1,7 @@
 .score-block {
   display: grid;
   gap: 0.35rem;
+  position: relative;
 }
 
 .score-caption {
@@ -19,7 +20,16 @@
   font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 0.95;
+  white-space: nowrap;
   text-shadow: 0 0 28px rgba(var(--accent-rgb), 0.18);
+}
+
+.score-value-measure {
+  inset: auto;
+  max-width: none;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
 }
 
 .action-row {
