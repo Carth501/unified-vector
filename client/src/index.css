@@ -1,0 +1,130 @@
+:root {
+  --text: #c7d7f2;
+  --text-h: #f4fbff;
+  --muted: #8ea6c9;
+  --bg: #07111f;
+  --bg-deep: #030813;
+  --panel-bg: linear-gradient(180deg, rgba(17, 29, 52, 0.94), rgba(9, 17, 31, 0.96));
+  --panel-border: rgba(110, 160, 255, 0.2);
+  --border: rgba(110, 160, 255, 0.16);
+  --accent: #52d7ff;
+  --accent-rgb: 82, 215, 255;
+  --accent-dark: #a4f1ff;
+  --accent-secondary: #7bf7d3;
+  --accent-secondary-rgb: 123, 247, 211;
+  --accent-tertiary: #7f8dff;
+  --accent-tertiary-rgb: 127, 141, 255;
+  --danger: #ff8cc9;
+  --danger-bg: rgba(255, 140, 201, 0.12);
+  --shadow:
+    rgba(4, 10, 24, 0.82) 0 36px 72px -30px,
+    rgba(82, 215, 255, 0.08) 0 0 0 1px inset;
+  --shadow-soft:
+    rgba(0, 0, 0, 0.42) 0 26px 44px -30px,
+    rgba(164, 241, 255, 0.08) 0 1px 0 inset;
+  --sans: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --heading: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', 'Cascadia Code', Consolas, monospace;
+
+  --bs-body-font-family: var(--sans);
+  --bs-body-color: var(--text);
+  --bs-body-bg: transparent;
+  --bs-border-color: var(--border);
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: var(--accent-rgb);
+  --bs-link-color: var(--accent-dark);
+  --bs-link-hover-color: #d3fbff;
+  --bs-btn-border-radius: 999px;
+  --bs-btn-padding-y: 0.85rem;
+  --bs-btn-padding-x: 1.5rem;
+  --bs-card-bg: transparent;
+  --bs-card-border-color: transparent;
+
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: dark;
+  font: 18px/1.5 var(--sans);
+  letter-spacing: 0.01em;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+  background:
+    linear-gradient(160deg, #08111f 0%, #0c1830 52%, #040913 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(119, 162, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(119, 162, 255, 0.06) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 100%);
+  opacity: 0.45;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#root {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--text-h);
+  font-family: var(--heading);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 0.95;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+
+  #root {
+    width: min(100%, calc(100% - 20px));
+  }
+}
