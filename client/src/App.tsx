@@ -179,12 +179,11 @@ function App() {
             aria-labelledby={`${descriptionOverlayId}-heading`}
             aria-describedby={`${descriptionOverlayId}-body`}
           >
-            <p className="description-card-eyebrow">{selectedPanel.title}</p>
             <h2
               className="description-card-title"
               id={`${descriptionOverlayId}-heading`}
             >
-              Description
+              {selectedPanel.title}
             </h2>
             <p
               className="description-card-body"
