@@ -1,4 +1,5 @@
 import { Panel } from "./panel";
+import "./ScorePanel.css";
 
 export type ScorePanelData = {
   id: string;

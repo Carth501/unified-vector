@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./panel.css";
 
 type PanelProps = {
   headingId: string;
