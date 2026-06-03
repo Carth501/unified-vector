@@ -6,9 +6,12 @@ export type ScorePanelData = {
   id: string;
   title: string;
   description: string;
+  selected: boolean;
   score: number | null;
   busy: boolean;
   errorMessage: string | null;
+  descriptionCardId: string;
+  onSelect: () => void;
   onIncrement: () => void;
 };
 
@@ -61,8 +64,22 @@ export function ScorePanel({ data, index, width }: ScorePanelProps) {
     <Panel
       headingId={headingId}
       title={data.title}
-      description={data.description}
       errorMessage={data.errorMessage}
+      onClick={data.onSelect}
+      selected={data.selected}
+      controlsId={data.descriptionCardId}
+      footer={
+        <div className="action-row centered">
+          <button
+            type="button"
+            className={`btn btn-primary btn-lg ${compactLayout ? "w-100" : ""}`.trim()}
+            onClick={data.onIncrement}
+            disabled={data.busy}
+          >
+            Add a Point
+          </button>
+        </div>
+      }
     >
       <div className="score-block" ref={scoreBlockRef}>
         <span className="score-caption">Global score</span>
@@ -76,17 +93,6 @@ export function ScorePanel({ data, index, width }: ScorePanelProps) {
         >
           {standardScoreDisplay}
         </span>
-      </div>
-
-      <div className="action-row centered">
-        <button
-          type="button"
-          className={`btn btn-primary btn-lg ${compactLayout ? "w-100" : ""}`.trim()}
-          onClick={data.onIncrement}
-          disabled={data.busy}
-        >
-          Add a Point
-        </button>
       </div>
     </Panel>
   );

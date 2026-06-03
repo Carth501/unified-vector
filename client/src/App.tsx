@@ -27,6 +27,8 @@ function App() {
   const [score, setScore] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedPanelId, setSelectedPanelId] = useState<string | null>(null);
+  const descriptionOverlayId = "panel-description-overlay";
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -77,6 +79,24 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!selectedPanelId) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedPanelId(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedPanelId]);
+
   const handleIncrement = async () => {
     setIsSubmitting(true);
     setErrorMessage(null);
@@ -104,12 +124,19 @@ function App() {
       title: "Shared score tracker",
       description:
         "Everyone contributes to one global counter. The button posts to the server, and the stream keeps every client in sync.",
+      selected: selectedPanelId === "score-panel",
       score,
       busy: isSubmitting,
       errorMessage,
+      descriptionCardId: descriptionOverlayId,
+      onSelect: () => {
+        setSelectedPanelId("score-panel");
+      },
       onIncrement: handleIncrement,
     },
   ];
+
+  const selectedPanel = panels.find((panel) => panel.id === selectedPanelId);
 
   return (
     <main className="dashboard-shell">
@@ -136,6 +163,39 @@ function App() {
           className="dashboard-grid"
         />
       </section>
+
+      {selectedPanel ? (
+        <div
+          className="description-overlay"
+          id={descriptionOverlayId}
+          onClick={() => {
+            setSelectedPanelId(null);
+          }}
+        >
+          <section
+            className="description-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`${descriptionOverlayId}-heading`}
+            aria-describedby={`${descriptionOverlayId}-body`}
+          >
+            <p className="description-card-eyebrow">{selectedPanel.title}</p>
+            <h2
+              className="description-card-title"
+              id={`${descriptionOverlayId}-heading`}
+            >
+              Description
+            </h2>
+            <p
+              className="description-card-body"
+              id={`${descriptionOverlayId}-body`}
+            >
+              {selectedPanel.description}
+            </p>
+            <p className="description-card-hint">Click anywhere to close.</p>
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }
