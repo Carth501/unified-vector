@@ -1,21 +1,7 @@
 import { Masonry } from "masonic";
 import { useEffect, useState } from "react";
 import "./App.css";
-
-type LiveStatus = "connecting" | "connected" | "reconnecting";
-
-type DashboardPanel = {
-  id: string;
-  title: string;
-  description: string;
-  score: number | null;
-  busy: boolean;
-  liveStatus: LiveStatus;
-  errorMessage: string | null;
-  onIncrement: () => void;
-};
-
-const scoreFormatter = new Intl.NumberFormat("en-US");
+import { ScorePanel, type ScorePanelData } from "./components/ScorePanel";
 
 const parseScorePayload = (value: unknown) => {
   const candidate = value as { score?: unknown };
@@ -37,66 +23,8 @@ const readScoreResponse = async (response: Response) => {
   return parseScorePayload(payload);
 };
 
-function ScorePanel({
-  data,
-  index,
-  width,
-}: {
-  data: DashboardPanel;
-  index: number;
-  width: number;
-}) {
-  const scoreDisplay =
-    data.score === null ? "..." : scoreFormatter.format(data.score);
-  const compactLayout = width < 420;
-  const headingId = `${data.id}-heading-${index}`;
-
-  return (
-    <article className="dashboard-panel" aria-labelledby={headingId}>
-      <div className="card panel-card border-0 shadow-sm h-100">
-        <div className="card-body">
-          <div className="panel-header">
-            <div>
-              <h2 className="panel-title" id={headingId}>
-                {data.title}
-              </h2>
-            </div>
-          </div>
-
-          <p className="panel-text">{data.description}</p>
-
-          <div className="score-block">
-            <span className="score-caption">Global score</span>
-            <p className="score-value" aria-live="polite">
-              {scoreDisplay}
-            </p>
-          </div>
-
-          <div className="action-row centered">
-            <button
-              type="button"
-              className={`btn btn-primary btn-lg ${compactLayout ? "w-100" : ""}`.trim()}
-              onClick={data.onIncrement}
-              disabled={data.busy}
-            >
-              Add a Point
-            </button>
-          </div>
-
-          {data.errorMessage ? (
-            <p className="panel-error" role="alert">
-              {data.errorMessage}
-            </p>
-          ) : null}
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function App() {
   const [score, setScore] = useState<number | null>(null);
-  const [liveStatus, setLiveStatus] = useState<LiveStatus>("connecting");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -139,14 +67,6 @@ function App() {
       }
     };
 
-    eventSource.onopen = () => {
-      setLiveStatus("connected");
-    };
-
-    eventSource.onerror = () => {
-      setLiveStatus("reconnecting");
-    };
-
     eventSource.addEventListener("score", handleScore);
     void loadScore();
 
@@ -178,7 +98,7 @@ function App() {
     }
   };
 
-  const panels: DashboardPanel[] = [
+  const panels: ScorePanelData[] = [
     {
       id: "score-panel",
       title: "Shared score tracker",
@@ -186,7 +106,6 @@ function App() {
         "Everyone contributes to one global counter. The button posts to the server, and the stream keeps every client in sync.",
       score,
       busy: isSubmitting,
-      liveStatus,
       errorMessage,
       onIncrement: handleIncrement,
     },
