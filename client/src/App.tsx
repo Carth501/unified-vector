@@ -17,27 +17,6 @@ type DashboardPanel = {
 
 const scoreFormatter = new Intl.NumberFormat("en-US");
 
-const liveStatusCopy: Record<
-  LiveStatus,
-  { label: string; className: string; detail: string }
-> = {
-  connecting: {
-    label: "Connecting",
-    className: "status-chip status-chip--connecting",
-    detail: "Opening the live event stream.",
-  },
-  connected: {
-    label: "Live",
-    className: "status-chip status-chip--connected",
-    detail: "Receiving shared score updates every second.",
-  },
-  reconnecting: {
-    label: "Reconnecting",
-    className: "status-chip status-chip--reconnecting",
-    detail: "Trying to restore the live event stream.",
-  },
-};
-
 const parseScorePayload = (value: unknown) => {
   const candidate = value as { score?: unknown };
 
@@ -67,7 +46,6 @@ function ScorePanel({
   index: number;
   width: number;
 }) {
-  const liveStatus = liveStatusCopy[data.liveStatus];
   const scoreDisplay =
     data.score === null ? "..." : scoreFormatter.format(data.score);
   const compactLayout = width < 420;
@@ -79,50 +57,30 @@ function ScorePanel({
         <div className="card-body">
           <div className="panel-header">
             <div>
-              <p className="panel-kicker">Global Pool</p>
               <h2 className="panel-title" id={headingId}>
                 {data.title}
               </h2>
             </div>
-            <span className={liveStatus.className}>{liveStatus.label}</span>
           </div>
 
           <p className="panel-text">{data.description}</p>
 
           <div className="score-block">
-            <span className="score-caption">Current score</span>
+            <span className="score-caption">Global score</span>
             <p className="score-value" aria-live="polite">
               {scoreDisplay}
             </p>
           </div>
 
-          <div className="action-row">
+          <div className="action-row centered">
             <button
               type="button"
               className={`btn btn-primary btn-lg ${compactLayout ? "w-100" : ""}`.trim()}
               onClick={data.onIncrement}
               disabled={data.busy}
             >
-              {data.busy ? "Adding..." : "Add a Point"}
+              Add a Point
             </button>
-            <p className="action-note">
-              Each click updates the shared pool for every connected player.
-            </p>
-          </div>
-
-          <div className="panel-meta">
-            <div className="panel-stat">
-              <span>Transport</span>
-              <strong>Server-Sent Events</strong>
-            </div>
-            <div className="panel-stat">
-              <span>Cadence</span>
-              <strong>1 second pushes</strong>
-            </div>
-            <div className="panel-stat">
-              <span>Status</span>
-              <strong>{liveStatus.detail}</strong>
-            </div>
           </div>
 
           {data.errorMessage ? (
